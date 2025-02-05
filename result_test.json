@@ -1,1 +1,21 @@
-"```json\n{\n    \"Patient Name\": \"Jane Smith\",\n    \"Age\": 46,\n    \"Diagnoses\": [\n        \"Hypertension\",\n        \"Hyperlipidemia\",\n        \"Unstable angina\"\n    ],\n    \"Medications\": [\n        \"Amlodipine 10mg PO daily\",\n        \"Atorvastatin 40mg PO nightly\",\n        \"Aspirin 81mg PO daily\",\n        \"Nitroglycerin PRN for chest pain\"\n    ],\n    \"Procedures\": [\n        \"EKG\",\n        \"Troponins\",\n        \"Lipid panel\",\n        \"Stress test or cardiac catheterization (if symptoms persist)\"\n    ]\n}\n```"
+{
+    "Patient Name": "Jane Smith",
+    "Age": 46,
+    "Diagnoses": [
+        "Hypertension",
+        "Hyperlipidemia",
+        "Unstable angina"
+    ],
+    "Medications": [
+        "Amlodipine 10mg PO daily",
+        "Atorvastatin 40mg PO nightly",
+        "Aspirin 81mg PO daily",
+        "Nitroglycerin PRN for chest pain"
+    ],
+    "Procedures": [
+        "EKG",
+        "Troponins",
+        "Lipid panel",
+        "Stress test or cardiac catheterization (if symptoms persist)"
+    ]
+}

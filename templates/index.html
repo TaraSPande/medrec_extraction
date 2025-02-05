@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clinical Note Extractor</title>
+</head>
+<body>
+    <h2>Enter Clinical Note</h2>
+    <textarea id="clinical_note" rows="10" cols="50"></textarea><br>
+    <button onclick="extract()">Extract</button>
+    <pre id="output"></pre>
+
+    <script>
+        function extract() {
+            const note = document.getElementById("clinical_note").value;
+            fetch("/extract", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ text: note })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("output").innerText = JSON.stringify(data, null, 2);
+            });
+        }
+    </script>
+</body>
+</html>
