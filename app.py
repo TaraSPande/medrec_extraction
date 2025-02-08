@@ -30,11 +30,11 @@ def extract():
         if not data or "text" not in data:
             return jsonify({"error": "Invalid input. Expecting plain text in request body."}), 400
         note = data["text"]
-        print("NOTE", note)
+        #print("NOTE", note)
     
     # Clean OpenAI Output
     extracted_text = extract_information(note)
-    print(extracted_text)
+    #print(extracted_text)
     cleaned_text = re.sub(r"```json\n|\n```", "", extracted_text)
     try:
         data = json.loads(cleaned_text)
