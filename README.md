@@ -27,16 +27,20 @@ deactivate
 
 # Running Flask Server (local)
 
-1) Run server
+1) Activate Virtual Environment
+```
+source venv/bin/activate
+```
+2) Run server (in repo root)
 ```
 flask run
 ```
-2) Load server in browser
+3) Load server in browser
 ```
 http://127.0.0.1:5000
 ```
-3) CTRL+C to quit
-4) Deactivate Virtual Environment
+4) CTRL+C to quit
+5) Deactivate Virtual Environment
 ```
 deactivate
 ```

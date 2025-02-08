@@ -1,27 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clinical Note Extractor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h2>Enter Clinical Note</h2>
-    <textarea id="clinical_note" rows="10" cols="50"></textarea><br>
-    <button onclick="extract()">Extract</button>
-    <pre id="output"></pre>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+
+    <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-lg">
+        <h2 class="text-2xl font-semibold mb-4 text-center">Clinical Note Extractor</h2>
+
+        <!-- Text Input -->
+        <textarea id="clinical_note" class="w-full p-2 border rounded-md" rows="6" placeholder="Enter clinical note..."></textarea>
+
+        <div class="flex items-center justify-between my-3">
+            <span class="text-gray-600">or</span>
+        </div>
+
+        <!-- File Upload -->
+        <input type="file" id="file_input" class="w-full p-2 border rounded-md bg-gray-50" accept=".pdf">
+        
+        <button onclick="extract()" class="w-full bg-blue-600 text-white p-2 rounded-md mt-4 hover:bg-blue-700">
+            Extract
+        </button>
+
+        <!-- Loading Indicator -->
+        <div id="loading" class="hidden text-center text-gray-600 mt-3">Processing...</div>
+
+        <!-- Output Section -->
+        <div class="mt-4">
+            <h3 class="text-lg font-semibold">Extracted Data:</h3>
+            <pre id="output" class="mt-2 p-3 bg-gray-100 rounded-md overflow-x-auto text-sm"></pre>
+
+            <!-- Buttons Container (Initially Hidden) -->
+            <div id="buttons_container" class="hidden flex gap-2 mt-2">
+                <button onclick="copyToClipboard()" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">
+                    Copy to Clipboard
+                </button>
+
+                <button onclick="downloadJSON()" class="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700">
+                    Download JSON
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script>
         function extract() {
-            const note = document.getElementById("clinical_note").value;
-            fetch("/extract", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ text: note })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("output").innerText = JSON.stringify(data, null, 2);
+            const note = document.getElementById("clinical_note").value.trim();
+            const fileInput = document.getElementById("file_input").files[0];
+            const output = document.getElementById("output");
+            const loading = document.getElementById("loading");
+            const buttonsContainer = document.getElementById("buttons_container");
+
+            output.innerText = "";
+            buttonsContainer.classList.add("hidden"); // Hide buttons initially
+            loading.classList.remove("hidden");
+
+            let fetchOptions = { method: "POST" };
+
+            if (fileInput) {
+                const formData = new FormData();
+                formData.append("file", fileInput);
+                fetchOptions.body = formData;
+            } else if (note) {
+                fetchOptions.headers = { "Content-Type": "application/json" };
+                fetchOptions.body = JSON.stringify({ text: note });
+            } else {
+                alert("Please enter text or upload a PDF.");
+                loading.classList.add("hidden");
+                return;
+            }
+
+            fetch("/extract", fetchOptions)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        output.innerText = "Error extracting data.";
+                        buttonsContainer.classList.add("hidden");
+                    } else {
+                        output.innerText = JSON.stringify(data, null, 2);
+                        buttonsContainer.classList.remove("hidden"); // Show buttons when data is valid
+                    }
+                    loading.classList.add("hidden");
+                })
+                .catch(error => {
+                    output.innerText = "Error extracting data.";
+                    buttonsContainer.classList.add("hidden");
+                    loading.classList.add("hidden");
+                });
+        }
+
+        function copyToClipboard() {
+            const output = document.getElementById("output").innerText;
+            if (!output) {
+                alert("No extracted data to copy.");
+                return;
+            }
+            navigator.clipboard.writeText(output).then(() => {
+                alert("Copied to clipboard!");
+            }).catch(err => {
+                alert("Failed to copy: " + err);
             });
         }
+
+        function downloadJSON() {
+            const output = document.getElementById("output").innerText;
+            if (!output) {
+                alert("No extracted data to download.");
+                return;
+            }
+            const blob = new Blob([output], { type: "application/json" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "extracted_data.json";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
     </script>
+
 </body>
 </html>
