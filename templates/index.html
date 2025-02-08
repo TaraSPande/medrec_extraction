@@ -60,6 +60,7 @@
 
             let fetchOptions = { method: "POST" };
 
+            // Determine Input Type
             if (fileInput) {
                 const formData = new FormData();
                 formData.append("file", fileInput);
@@ -73,6 +74,7 @@
                 return;
             }
 
+            // Call for extraction on input
             fetch("/extract", fetchOptions)
                 .then(response => response.json())
                 .then(data => {
@@ -92,6 +94,7 @@
                 });
         }
 
+        // Copy output text to clipboard
         function copyToClipboard() {
             const output = document.getElementById("output").innerText;
             if (!output) {
@@ -105,6 +108,7 @@
             });
         }
 
+        // Download output text as a JSON
         function downloadJSON() {
             const output = document.getElementById("output").innerText;
             if (!output) {
