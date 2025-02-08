@@ -4,7 +4,7 @@ Brighterway - take home project
 ## Tara's Production Timeline
 - 90/120 min Tuesday: finished basic backend
 - 30/60 min Wednesday: added basic frontend
-- 30 min Saturday: pretty frontend; PDF/clipboard/download
+- 30 min Friday: pretty frontend; PDF/clipboard/download
 
 # Installation
 1) Download code locally
