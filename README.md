@@ -1,10 +1,7 @@
 # medrec_extraction
-Brighterway - take home project
 
-## Tara's Production Timeline
-- 90/120 min Tuesday: finished basic backend
-- 30/60 min Wednesday: added basic frontend
-- 30 min Friday: pretty frontend; PDF/clipboard/download
+## Production Timeline
+- Took around 4 hours to complete
 
 # Installation
 1) Download code locally
